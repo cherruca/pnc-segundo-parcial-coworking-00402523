@@ -1,48 +1,45 @@
 package com.uca.pncsegundoparcialcoworking.domain.entity;
 
+import com.uca.pncsegundoparcialcoworking.domain.enums.SpaceType;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 @Entity
-@Table(name = "space")
+@Table(name = "spaces")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Space {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID id;
+    private Long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
     @Column(name = "description")
     private String description;
-//    private Enum
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type", nullable = false)
+    private SpaceType type;
 
     @Column(name = "capacity", nullable = false)
-    @Min(value = 1, message = "La capacidad debe ser mayor o igual a 1")
     private Integer capacity;
 
-    @Column(name = "price", nullable = false)
-    @Min(value = 0, message = "Debe ingresar una cantidad mayor o igual a 0")
-    private BigDecimal price;
+    @Column(name = "price_per_hour", nullable = false, precision = 10, scale = 2)
+    private BigDecimal pricePerHour;
 
-    @Column(name = "available", nullable = false)
+    @Column(name = "available")
     private Boolean available;
 
     @Column(name = "floor", nullable = false)
-    @Min(value = 0, message = "Debe ingresar una cantidad mayor o igual a 0")
     private Integer floor;
 
-    @Column(name = "price")
+    @Column(name = "amenities")
     private String amenities;
 }
